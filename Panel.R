@@ -94,6 +94,19 @@ tr <- texreg::createTexreg(coef.names = coefficient.names,
  }
 
 
+### MATCHING
+#x=c("A", "B", "C", "D","Z")
+#y=c(1,4,6,3,2)
+
+#w=c("A", "B", "C", "D","Z","B", "B", "C", "D","C", "D")
+matching=function(x,y,w){
+z=1:length(w)
+for (i in 1:length(w)) {
+  z[i]=y[match(w,x)[i]]
+}
+return(z)
+}
+
 
 
 
