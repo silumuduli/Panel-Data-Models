@@ -108,5 +108,75 @@ return(z)
 }
 
 
+### Panel Plot
+#x=pdata$Liquidity_Creation  #Variable
+#cat=pdata$year  #Time Variable
+#xlab="xlab"  # xlabel
+#ylab="ylab"  # ylabel
+#fun=function(x){u=quantile(x,0.75);m=mean(x);l=quantile(x,0.25);c(u,m,l)}  #summary statistics measure
 
+pplot=function(x,cat, xlab,ylab,fun=fun){
+ag_d <- as.data.frame(aggregate(x, by=list(cat), FUN=fun))
+head(ag_d)
+
+
+plot=ggplot(ag_d, aes(x=Group.1))+ geom_ribbon(aes(ymin = ag_d$x[,3] , ymax =ag_d$x[,1] ),linetype = 5, alpha= 0.8, fill = "grey85") 
+plot=plot+geom_line(aes(y =ag_d$x[,2] ), color="firebrick", size=0.5)+theme_bw()+  xlab(xlab) + ylab(ylab)
+plot  
+}
+
+#pplot(x,cat, xlab,ylab,fun=fun)
+
+
+### Panel Plot wof Different Category over time
+#x=pdata$Liquidity_Creation
+#cat=pdata$year
+#cat2=pdata$Ownership
+#xlab="xlab"
+#ylab="ylab"
+#fun=function(x){m=median(x);m}
+
+pcatplot=function(x,cat, cat2, xlab,ylab, fun){
+ag_d <- as.data.frame(aggregate(x, list(cat, cat2), FUN=fun))
+head(ag_d)
+
+p=ggplot(ag_d, aes(x =Group.1, y = x, col=Group.2)) + geom_line() +theme_bw()+  xlab(xlab) + ylab(ylab)+guides(fill = guide_legend(title.position = "bottom",title = ""))
+p=p+theme(legend.position="bottom",legend.title = element_blank())
+p
+}
+
+#pcatplot(x,cat, cat2, xlab,ylab, fun)
+
+
+#### Panel Secondary Axis Time plot
+
+#x1=pdata$MonetaryPolicy
+#x2=pdata$Costoffunds
+#cat=pdata$year
+#xlab="xlab"
+#ylab="ylab"
+#ylab2="ylab2"
+#fun1=function(x){m=median(x);m}
+#fun2=function(x){m=sd(x);m}
+
+psecplot=function(x1,x2,cat,xlab,ylab,ylab2,fun1, fun2){
+ag_d1 <- as.data.frame(aggregate(x1, list(cat), FUN=fun1))
+ag_d2<- as.data.frame(aggregate(x2, list(cat), FUN=fun2))
+ag_d=merge(ag_d1, ag_d2, by="Group.1")
+
+k=mean(mean(ag_d$x.x,na.rm = TRUE)/mean(ag_d$x.y,na.rm = TRUE),median(ag_d$x.x,na.rm = TRUE)/median(ag_d$x.y,na.rm = TRUE))
+p <- ggplot(ag_d, aes(x = Group.1))+theme_bw()
+p <- p + geom_line(aes(y = x.x, colour =ylab), size=1)
+p <- p + geom_line(aes(y = x.y*k, colour = ylab2), size=1)
+p <- p + scale_y_continuous(sec.axis = sec_axis(~./k, name = ylab2))
+p <- p + scale_colour_manual(values =brewer.pal(n = 8, name = "Dark2"))
+p <- p + labs(y = ylab,
+              x = xlab,
+              colour = "")
+p <- p + theme(legend.position = c(0.9, 0.85))
+p
+}
+
+
+#psecplot(x1,x2,cat,xlab,ylab,ylab2,fun1,fun2)
 
