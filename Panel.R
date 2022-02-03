@@ -180,3 +180,23 @@ p
 
 #psecplot(x1,x2,cat,xlab,ylab,ylab2,fun1,fun2)
 
+
+
+##### Generate Variable using Panel Saummary Statistics
+#x=pdata$Liquidity_Creation
+#by=pdata$Year
+#fun=function(x){m=median(x);m}
+#data=pdata
+pgen=function(data,x,by,fun){
+  matching=function(x,y,w){
+    z=1:length(w)
+    for (i in 1:length(w)) {
+      z[i]=y[match(w,x)[i]]
+    }
+    return(z)
+  }
+ag_d <- as.data.frame(aggregate(x, list(by), FUN=fun))
+gn=matching(ag_d$Group.1,ag_d$x ,by)
+return(gn)
+}
+
