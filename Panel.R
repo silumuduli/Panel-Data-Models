@@ -229,4 +229,38 @@ return(xtl)
 
 
 
+data("Produc", package = "plm")
+formula= gsp ~ lag(gsp)+pcap + pc + emp + unemp
+pooling <- plm(formula,data = Produc, index = c("state","year"), model ="pooling")
+fixed <- plm(formula,data = Produc, index = c("state","year"), model ="within")
+diff<- pgmm(gsp ~ lag(gsp)+pcap + pc + emp + unemp|lag(gsp,2:99),data = Produc, index = c("state","year"), model ="twosteps",effect="twoways")
+
+#pooling
+#fixed
+#diff
+
+# If two steps difference GMM lagged coeffciient is near to fixed effect model, then system gmm is prefrred.
+
+
+
+dpmodelselect=function(pooling, fixed, diff){
+  a=abs(fixed$coefficients[1]-diff1$coefficients[[2]][1])
+  b=abs(pooling$coefficients[2]-diff1$coefficients[[2]][1])
+if (a<b){
+print("System GMM")
+}
+if(a >=b){
+print("Difference GMM")
+}
+}
+
+dpmodelselect(pooling, fixed, diff)
+
+
+diff1 <- pgmm(gsp ~ lag(gsp)+pcap + pc + emp + unemp|lag(gsp,2:99),data = Produc, index = c("state","year"), model ="onestep",effect="twoways")
+diff2<- pgmm(gsp ~ lag(gsp)+pcap + pc + emp + unemp|lag(gsp,2:99),data = Produc, index = c("state","year"), model ="twosteps",effect="twoways")
+system_gmm1<- pgmm(gsp ~ lag(gsp)+pcap + pc + emp + unemp|lag(gsp,2:3),data = Produc, index = c("state","year"), model ="onestep",effect="twoways", transformation ="ld")
+system_gmm2<- pgmm(gsp ~ lag(gsp)+pcap + pc + emp + unemp|lag(gsp,2:3),data = Produc, index = c("state","year"), model ="twosteps",effect="twoways", transformation ="ld")
+
+
 
