@@ -244,8 +244,8 @@ diff<- pgmm(gsp ~ lag(gsp)+pcap + pc + emp + unemp|lag(gsp,2:99),data = Produc, 
 
 
 dpmodelselect=function(pooling, fixed, diff){
-  a=abs(fixed$coefficients[1]-diff1$coefficients[[2]][1])
-  b=abs(pooling$coefficients[2]-diff1$coefficients[[2]][1])
+  a=abs(fixed$coefficients[1]-diff$coefficients[[2]][1])
+  b=abs(pooling$coefficients[2]-diff$coefficients[[2]][1])
 if (a<b){
 print("System GMM")
 }
