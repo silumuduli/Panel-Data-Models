@@ -39,7 +39,7 @@ return(round(punitdata,5))
 
 ## Optimal Model: pooled, fixed, or random
 
-optimal_pmodel=function(formula,data,p,effect="towway"){
+optimal_pmodel=function(formula,data,p,effect="twoways"){
   ols_m=plm(formula, data = data)
   fixed_m=plm(formula, data = data,model = "within", effect = effect)
   random_m=plm(formula, data = data,model = "random",effect = effect)
