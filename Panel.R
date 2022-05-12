@@ -38,33 +38,6 @@ return(round(punitdata,5))
 }
 
 
-optimal_panelmodel=function(ols, fixed, random,p=0.05){
-  ols_m=ols
-  fixed_m=fixed
-  random_m=random
-  ooo=pFtest(fixed_m, ols_m)
-  kkk=phtest(fixed_m, random_m)
-  o=ooo$p.value
-  k=kkk$p.value
-  if(o<p & k <p){
-    print(screenreg(fixed_m,stars = c(0.01, 0.05, 0.1),custom.model.names = c("Fixed Effect Model")))
-    return(fixed_m)
-  }
-  if(o<p & k >p){
-    print(screenreg(random_m,stars = c(0.01, 0.05, 0.1),custom.model.names = c("Random Effect Model"))) 
-    return(random_m)
-  }
-  if(o>p & k<p){
-    print(screenreg(ols_m,stars = c(0.01, 0.05, 0.1),custom.model.names = c("OLS Model")))
-    return(ols_m)
-  }
-  if(o>p & k>p){
-    print(screenreg(ols_m,stars = c(0.01, 0.05, 0.1),custom.model.names = c("OLS Model"))) 
-    return(ols_m)
-  }
-}
-
-
 
 
 ## Optimal Model: pooled, fixed, or random
