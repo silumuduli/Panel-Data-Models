@@ -59,11 +59,11 @@ optimal_pmodel=function(formula,data,p,effect="twoways"){
     return(random_m)
     }
   if(o>p & k<p){
-    print(screenreg(ols_m,stars = c(0.01, 0.05, 0.1),custom.model.names = c("OLS Model")))
+    print(screenreg(ols_m,stars = c(0.01, 0.05, 0.1),custom.model.names = c("Pooled Model")))
     return(ols_m)
     }
   if(o>p & k>p){
-    print(screenreg(ols_m,stars = c(0.01, 0.05, 0.1),custom.model.names = c("OLS Model"))) 
+    print(screenreg(ols_m,stars = c(0.01, 0.05, 0.1),custom.model.names = c("Pooled Model"))) 
     return(ols_m)
     }
 }
