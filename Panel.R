@@ -70,7 +70,7 @@ optimal_panelmodel=function(ols, fixed, random,p=0.05){
 ## Optimal Model: pooled, fixed, or random
 
 optimal_pmodel=function(formula,data,p,effect="twoways"){
-  ols_m=plm(formula, data = data)
+  ols_m=plm(formula, data = data, model="pooling")
   fixed_m=plm(formula, data = data,model = "within", effect = effect)
   random_m=plm(formula, data = data,model = "random",effect = effect)
   ooo=pFtest(fixed_m, ols_m)
